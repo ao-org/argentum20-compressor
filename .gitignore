@@ -1,7 +1,7 @@
 cuentas/*
 Logs/*
 Charfile/*
-Logs/*
+*.log
 Foros/*
 WorldBackup/*
 Guilds/*
