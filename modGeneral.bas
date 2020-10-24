@@ -77,7 +77,7 @@ Public Enum FileTypeEnum
     Mp3 = 2
     Wav = 3
     Inits = 4
-    Patch = 5
+    PatchOk = 5
     Interface = 6
     Mapas = 7
 End Enum

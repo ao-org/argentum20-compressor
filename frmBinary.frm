@@ -326,8 +326,8 @@ Public Sub LeerLineaComandos()
                 Option1_Click (FileTypeEnum.Inits)
                 Option1(FileTypeEnum.Inits).value = True
             Case Is = "PATCH"
-                Option1_Click (FileTypeEnum.Patch)
-                Option1(FileTypeEnum.Patch).value = True
+                Option1_Click (FileTypeEnum.PatchOk)
+                Option1(FileTypeEnum.PatchOk).value = True
             Case Is = "INTERFACE"
                 Option1_Click (FileTypeEnum.Interface)
                 Option1(FileTypeEnum.Interface).value = True
