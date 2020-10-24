@@ -34,10 +34,10 @@ Attribute VB_Name = "modGeneral"
 '               - SC Description Here
 '*****************************************************************
 '
-'Juan Martín Sotuyo Dodero (juansotuyo@hotmail.com) - 6/7/2004
+'Juan Martï¿½n Sotuyo Dodero (juansotuyo@hotmail.com) - 6/7/2004
 '   - Add: General_Drive_Get_Free_Bytes method
 '
-'Juan Martín Sotuyo Dodero (juansotuyo@hotmail.com) - 2/19/2003
+'Juan Martï¿½n Sotuyo Dodero (juansotuyo@hotmail.com) - 2/19/2003
 '   - Add: General_Long_Color_To_RGB method
 '
 'Aaron Perkins(aaron@baronsoft.com) - 5/14/2002
@@ -70,6 +70,17 @@ Private Const SWP_SHOWWINDOW = &H40
 
 'To get free bytes in drive
 Private Declare Function GetDiskFreeSpace Lib "kernel32" Alias "GetDiskFreeSpaceExA" (ByVal lpRootPathName As String, FreeBytesToCaller As Currency, BytesTotal As Currency, FreeBytesTotal As Currency) As Long
+
+Public Enum FileTypeEnum
+    Graficos = 0
+    Midi = 1
+    Mp3 = 2
+    Wav = 3
+    Inits = 4
+    Patch = 5
+    Interface = 6
+    Mapas = 7
+End Enum
 
 Public Function General_File_Exists(ByVal file_path As String, ByVal file_type As VbFileAttribute) As Boolean
 '*****************************************************************
@@ -114,7 +125,7 @@ Public Sub General_Var_Write(ByVal file As String, ByVal Main As String, ByVal v
     writeprivateprofilestring Main, var, value, file
 End Sub
 
-Public Function General_Field_Read(ByVal field_pos As Long, ByVal text As String, ByVal delimiter As Byte) As String
+Public Function General_Field_Read(ByVal field_pos As Long, ByVal Text As String, ByVal delimiter As Byte) As String
 '*****************************************************************
 'Author: Aaron Perkins
 'Last Modify Date: 10/07/2002
@@ -126,11 +137,11 @@ Public Function General_Field_Read(ByVal field_pos As Long, ByVal text As String
     
     LastPos = 0
     FieldNum = 0
-    For i = 1 To Len(text)
-        If delimiter = CByte(Asc(Mid$(text, i, 1))) Then
+    For i = 1 To Len(Text)
+        If delimiter = CByte(Asc(mid$(Text, i, 1))) Then
             FieldNum = FieldNum + 1
             If FieldNum = field_pos Then
-                General_Field_Read = Mid$(text, LastPos + 1, (InStr(LastPos + 1, text, Chr$(delimiter), vbTextCompare) - 1) - (LastPos))
+                General_Field_Read = mid$(Text, LastPos + 1, (InStr(LastPos + 1, Text, Chr$(delimiter), vbTextCompare) - 1) - (LastPos))
                 Exit Function
             End If
             LastPos = i
@@ -138,26 +149,26 @@ Public Function General_Field_Read(ByVal field_pos As Long, ByVal text As String
     Next i
     FieldNum = FieldNum + 1
     If FieldNum = field_pos Then
-        General_Field_Read = Mid$(text, LastPos + 1)
+        General_Field_Read = mid$(Text, LastPos + 1)
     End If
 End Function
 
-Public Function General_Field_Count(ByVal text As String, ByVal delimiter As Byte) As Long
+Public Function General_Field_Count(ByVal Text As String, ByVal delimiter As Byte) As Long
 '*****************************************************************
 'Author: Aaron Perkins
 'Last Modify Date: 10/07/2002
 'Count the number of fields in a delimited string
 '*****************************************************************
     'If string is empty there aren't any fields
-    If Len(text) = 0 Then
+    If Len(Text) = 0 Then
         Exit Function
     End If
 
     Dim i As Long
     Dim FieldNum As Long
     FieldNum = 0
-    For i = 1 To Len(text)
-        If delimiter = CByte(Asc(Mid$(text, i, 1))) Then
+    For i = 1 To Len(Text)
+        If delimiter = CByte(Asc(mid$(Text, i, 1))) Then
             FieldNum = FieldNum + 1
         End If
     Next i
@@ -228,7 +239,7 @@ Public Function General_String_Is_Alphanumeric(ByVal test_string As String) As B
     Dim LoopC As Long
     Dim ts As Byte
     For LoopC = 1 To Len(test_string)
-        ts = Asc(Mid(test_string, LoopC))
+        ts = Asc(mid(test_string, LoopC))
         If ts = 32 Or (ts >= 48 And ts <= 57) Or (ts >= 65 And ts <= 90) Or (ts >= 96 And ts <= 122) Then
             General_String_Is_Alphanumeric = True
         Else
@@ -273,7 +284,7 @@ End Function
 
 Public Sub General_Long_Color_to_RGB(ByVal long_color As Long, ByRef red As Integer, ByRef green As Integer, ByRef blue As Integer)
 '**************************************************************
-'Coded by Juan Martín Sotuyo Dodero (juansotuyo@hotmail.com)
+'Coded by Juan Martï¿½n Sotuyo Dodero (juansotuyo@hotmail.com)
 'Last Modified: 2/19/03
 'Takes a long value and separates RGB values to the given variables
 '**************************************************************
@@ -285,14 +296,14 @@ Public Sub General_Long_Color_to_RGB(ByVal long_color As Long, ByRef red As Inte
         temp_color = String(6 - Len(temp_color), "0") + temp_color
     End If
     
-    red = CLng("&H" + Mid(temp_color, 1, 2))
-    green = CLng("&H" + Mid(temp_color, 3, 2))
-    blue = CLng("&H" + Mid(temp_color, 5, 2))
+    red = CLng("&H" + mid(temp_color, 1, 2))
+    green = CLng("&H" + mid(temp_color, 3, 2))
+    blue = CLng("&H" + mid(temp_color, 5, 2))
 End Sub
 
 Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency
 '**************************************************************
-'Author: Juan Martín Sotuyo Dodero
+'Author: Juan Martï¿½n Sotuyo Dodero
 'Last Modify Date: 6/07/2004
 '
 '**************************************************************
@@ -305,3 +316,4 @@ Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Curre
     
     General_Drive_Get_Free_Bytes = FB * 10000 'convert result to actual size in bytes
 End Function
+
