@@ -236,6 +236,10 @@ Option Explicit
 
 Dim File_Type_Index As Byte
 
+Sub Form_Load()
+    Call LeerLineaComandos
+End Sub
+
 Private Sub Command1_Click()
     frmProgress.Show
     frmProgress.Label1.Caption = "Comprimiendo..."
@@ -244,7 +248,7 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Command2_Click()
-    Dim loopc As Long
+    Dim LoopC As Long
     
     frmProgress.Show
     frmProgress.Label1.Caption = "Descomprimiendo..."
@@ -266,3 +270,83 @@ End Sub
 Private Sub Option1_Click(Index As Integer)
     File_Type_Index = Index
 End Sub
+
+Function ReadField(ByVal Pos As Integer, ByRef Text As String, ByVal SepASCII As Byte) As String
+'*****************************************************************
+'Gets a field from a delimited string
+'Author: Juan Mart?n Sotuyo Dodero (Maraxus)
+'Last Modify Date: 11/15/2004
+'*****************************************************************
+    Dim i As Long
+    Dim LastPos As Long
+    Dim CurrentPos As Long
+    Dim delimiter As String * 1
+    
+    delimiter = Chr$(SepASCII)
+    
+    For i = 1 To Pos
+        LastPos = CurrentPos
+        CurrentPos = InStr(LastPos + 1, Text, delimiter, vbBinaryCompare)
+    Next i
+    
+    If CurrentPos = 0 Then
+        ReadField = mid$(Text, LastPos + 1, Len(Text) - LastPos)
+    Else
+        ReadField = mid$(Text, LastPos + 1, CurrentPos - LastPos - 1)
+    End If
+End Function
+
+
+Public Sub LeerLineaComandos()
+    Dim rdata As String
+    rdata = Command
+    
+    Dim FileTypeName As String
+    Dim FileTypeIndex As Integer
+    
+    rdata = Right$(rdata, Len(rdata))
+      
+    FileTypeName = ReadField(1, rdata, Asc("*")) ' File Type Name
+    
+    If Len(FileTypeName) > 0 Then
+    
+        FileTypeName = UCase(FileTypeName)
+        
+        Select Case FileTypeName
+            Case Is = "GRAFICOS"
+                Option1_Click (FileTypeEnum.Graficos)
+                Option1(FileTypeEnum.Graficos).value = True
+            Case Is = "MIDI"
+                Option1_Click (FileTypeEnum.Midi)
+                Option1(FileTypeEnum.Midi).value = True
+            Case Is = "WAV"
+                Option1_Click (FileTypeEnum.Wav)
+                Option1(FileTypeEnum.Wav).value = True
+            Case Is = "INITS"
+                Option1_Click (FileTypeEnum.Inits)
+                Option1(FileTypeEnum.Inits).value = True
+            Case Is = "PATCH"
+                Option1_Click (FileTypeEnum.Patch)
+                Option1(FileTypeEnum.Patch).value = True
+            Case Is = "INTERFACE"
+                Option1_Click (FileTypeEnum.Interface)
+                Option1(FileTypeEnum.Interface).value = True
+            Case Is = "MAPAS"
+                Option1_Click (FileTypeEnum.Mapas)
+                Option1(FileTypeEnum.Mapas).value = True
+        End Select
+    
+        Call Command1_Click
+        
+        End
+    
+    End If
+
+    
+    
+    
+    
+
+    
+End Sub
+
