@@ -46,6 +46,14 @@ Begin VB.Form frmBinary
       TabIndex        =   2
       Top             =   120
       Width           =   4335
+      Begin VB.TextBox Password 
+         Height          =   285
+         Left            =   2760
+         TabIndex        =   12
+         Text            =   "Contraseña"
+         Top             =   960
+         Width           =   1335
+      End
       Begin VB.OptionButton Option1 
          Caption         =   "Mapas"
          BeginProperty Font 
@@ -236,6 +244,8 @@ Option Explicit
 
 Dim File_Type_Index As Byte
 
+Public Passwd As String
+
 Sub Form_Load()
     Call LeerLineaComandos
 End Sub
@@ -243,7 +253,7 @@ End Sub
 Private Sub Command1_Click()
     frmProgress.Show
     frmProgress.Label1.Caption = "Comprimiendo..."
-    Compress_Files File_Type_Index, App.Path & "\..\Recursos", App.Path & "\..\Recursos\OUTPUT\"
+    Compress_Files File_Type_Index, App.Path & "\..\Recursos", App.Path & "\..\Recursos\OUTPUT\", Passwd
     Unload frmProgress
 End Sub
 
@@ -253,9 +263,9 @@ Private Sub Command2_Click()
     frmProgress.Show
     frmProgress.Label1.Caption = "Descomprimiendo..."
     If File_Type_Index <> Patch Then
-        Extract_All_Files File_Type_Index, App.Path & "\..\Recursos", True
+        Extract_All_Files File_Type_Index, App.Path & "\..\Recursos", Passwd, True
     Else
-         Extract_Patch App.Path & "\..\Recursos\OUTPUT", App.Path & "\..\Recursos\OUTPUT\Patch.rao"
+         Extract_Patch App.Path & "\..\Recursos\OUTPUT", App.Path & "\..\Recursos\OUTPUT\Patch.rao", Passwd
     End If
     
     Unload frmProgress
@@ -264,7 +274,7 @@ End Sub
 Private Sub Command3_Click()
 Dim tmp As String
 tmp = InputBox("Ingrese el nombre del archivo a extraer")
-Extract_File File_Type_Index, App.Path & "\output", tmp, App.Path & "\output\", False
+Extract_File File_Type_Index, App.Path & "\output", tmp, App.Path & "\output\", Passwd, False
 End Sub
 
 Private Sub Option1_Click(Index As Integer)
@@ -303,11 +313,11 @@ Public Sub LeerLineaComandos()
     
     Dim FileTypeName As String
     Dim FileTypeIndex As Integer
-    
-    rdata = Right$(rdata, Len(rdata))
       
     FileTypeName = ReadField(1, rdata, Asc("*")) ' File Type Name
-    
+
+    Passwd = ReadField(2, rdata, Asc("*")) ' Contraseña
+
     If Len(FileTypeName) > 0 Then
     
         FileTypeName = UCase(FileTypeName)
@@ -342,11 +352,8 @@ Public Sub LeerLineaComandos()
     
     End If
 
-    
-    
-    
-    
-
-    
 End Sub
 
+Private Sub Password_Change()
+    Passwd = Password.Text
+End Sub
