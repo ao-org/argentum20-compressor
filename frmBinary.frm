@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmBinary 
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "ORE Compressor"
-   ClientHeight    =   2010
+   ClientHeight    =   2355
    ClientLeft      =   2325
    ClientTop       =   1500
    ClientWidth     =   4485
@@ -10,9 +10,18 @@ Begin VB.Form frmBinary
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2010
+   ScaleHeight     =   2355
    ScaleWidth      =   4485
    StartUpPosition =   2  'CenterScreen
+   Begin VB.TextBox Password 
+      Alignment       =   2  'Center
+      Height          =   285
+      Left            =   960
+      TabIndex        =   12
+      Text            =   "Contraseña"
+      Top             =   1560
+      Width           =   2535
+   End
    Begin VB.CommandButton Command3 
       Caption         =   "Extraer uno"
       BeginProperty Font 
@@ -27,7 +36,7 @@ Begin VB.Form frmBinary
       Height          =   375
       Left            =   3000
       TabIndex        =   11
-      Top             =   1560
+      Top             =   1920
       Width           =   1335
    End
    Begin VB.Frame Frame1 
@@ -46,13 +55,23 @@ Begin VB.Form frmBinary
       TabIndex        =   2
       Top             =   120
       Width           =   4335
-      Begin VB.TextBox Password 
-         Height          =   285
-         Left            =   2760
-         TabIndex        =   12
-         Text            =   "Contraseña"
+      Begin VB.OptionButton Option1 
+         Caption         =   "MiniMapas"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   5
+         Left            =   1560
+         TabIndex        =   13
          Top             =   960
-         Width           =   1335
+         Width           =   1215
       End
       Begin VB.OptionButton Option1 
          Caption         =   "Mapas"
@@ -102,8 +121,8 @@ Begin VB.Form frmBinary
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Index           =   5
-         Left            =   1560
+         Index           =   8
+         Left            =   2760
          TabIndex        =   8
          Top             =   960
          Width           =   1215
@@ -214,7 +233,7 @@ Begin VB.Form frmBinary
       Height          =   375
       Left            =   1560
       TabIndex        =   1
-      Top             =   1560
+      Top             =   1920
       Width           =   1335
    End
    Begin VB.CommandButton Command1 
@@ -231,7 +250,7 @@ Begin VB.Form frmBinary
       Height          =   375
       Left            =   120
       TabIndex        =   0
-      Top             =   1560
+      Top             =   1920
       Width           =   1335
    End
 End
@@ -272,9 +291,9 @@ Private Sub Command2_Click()
 End Sub
 
 Private Sub Command3_Click()
-Dim tmp As String
-tmp = InputBox("Ingrese el nombre del archivo a extraer")
-Extract_File File_Type_Index, App.Path & "\output", tmp, App.Path & "\output\", Passwd, False
+    Dim tmp As String
+    tmp = InputBox("Ingrese el nombre del archivo a extraer")
+    Extract_File File_Type_Index, App.Path & "\output", tmp, App.Path & "\output\", Passwd, False
 End Sub
 
 Private Sub Option1_Click(Index As Integer)
@@ -344,6 +363,9 @@ Public Sub LeerLineaComandos()
             Case Is = "MAPAS"
                 Option1_Click (FileTypeEnum.Mapas)
                 Option1(FileTypeEnum.Mapas).value = True
+            Case Is = "MINIMAPAS"
+                Option1_Click (FileTypeEnum.MiniMapas)
+                Option1(FileTypeEnum.MiniMapas).value = True
         End Select
     
         Call Command1_Click

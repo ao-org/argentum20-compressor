@@ -81,6 +81,7 @@ Private Const SCRIPT_PATH As String = "\Init\"
 Private Const PATCH_PATH As String = "\Patches\"
 Private Const OUTPUT_PATH As String = "\Output\"
 Private Const MAP_PATH As String = "\Mapas\"
+Private Const MINIMAP_PATH As String = "\MiniMapas\"
 
 Private Declare Function Compress Lib "zlib.dll" Alias "compress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
 Private Declare Function UnCompress Lib "zlib.dll" Alias "uncompress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
@@ -206,11 +207,20 @@ On Local Error GoTo ErrHandler
         
         Case Maps
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "mapas.rao"
+                SourceFilePath = resource_path & OUTPUT_PATH & "Mapas.rao"
             Else
                 SourceFilePath = resource_path & "\mapas.rao"
             End If
             OutputFilePath = resource_path & MAP_PATH
+            
+        Case MiniMapas
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "MiniMapas.rao"
+            Else
+                SourceFilePath = resource_path & "\MiniMapas.rao"
+            End If
+            OutputFilePath = resource_path & MINIMAP_PATH
+            
         Case Else
             Exit Function
     End Select
@@ -653,7 +663,12 @@ On Local Error GoTo ErrHandler
         Case Maps
             SourceFilePath = resource_path & MAP_PATH
             SourceFileExtension = ".csm"
-            OutputFilePath = dest_path & "mapas.rao"
+            OutputFilePath = dest_path & "Mapas.rao"
+            
+        Case MiniMapas
+            SourceFilePath = resource_path & MINIMAP_PATH
+            SourceFileExtension = ".bmp"
+            OutputFilePath = dest_path & "MiniMapas.rao"
     
     End Select
     
@@ -859,9 +874,16 @@ On Local Error GoTo ErrHandler
             
         Case Maps
             If UseOutputFolder Then
-                SourceFilePath = resource_path & OUTPUT_PATH & "mapas.rao"
+                SourceFilePath = resource_path & OUTPUT_PATH & "Mapas.rao"
             Else
                 SourceFilePath = resource_path & "\mapas.rao"
+            End If
+            
+        Case MiniMapas
+            If UseOutputFolder Then
+                SourceFilePath = resource_path & OUTPUT_PATH & "MiniMapas.rao"
+            Else
+                SourceFilePath = resource_path & "\MiniMapas.rao"
             End If
         
         Case Else

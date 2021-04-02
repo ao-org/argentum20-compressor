@@ -74,12 +74,13 @@ Private Declare Function GetDiskFreeSpace Lib "kernel32" Alias "GetDiskFreeSpace
 Public Enum FileTypeEnum
     Graficos = 0
     Midi = 1
-    Mp3 = 2
+    MP3 = 2
     Wav = 3
     Inits = 4
-    PatchOk = 5
+    MiniMapas = 5
     Interface = 6
     Mapas = 7
+    PatchOk = 8
 End Enum
 
 Public Function General_File_Exists(ByVal file_path As String, ByVal file_type As VbFileAttribute) As Boolean
@@ -101,7 +102,7 @@ Public Function General_Var_Get(ByVal file As String, ByVal Main As String, ByVa
 'Last Modify Date: 10/07/2002
 'Get a var to from a text file
 '*****************************************************************
-    Dim l As Long
+    Dim L As Long
     Dim char As String
     Dim sSpaces As String 'Input that the program will retrieve
     Dim szReturn As String 'Default value if the string is not found
@@ -290,7 +291,7 @@ Public Sub General_Long_Color_to_RGB(ByVal long_color As Long, ByRef red As Inte
 '**************************************************************
     Dim temp_color As String
     
-    temp_color = Hex(long_color)
+    temp_color = hex(long_color)
     If Len(temp_color) < 6 Then
         'Give is 6 digits for easy RGB conversion.
         temp_color = String(6 - Len(temp_color), "0") + temp_color
