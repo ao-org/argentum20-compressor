@@ -67,9 +67,10 @@ Public Enum resource_file_type
     MP3
     Wav
     Scripts
-    Patch
+    MiniMaps
     Interface
     Maps
+    Patch
 End Enum
 
 Private Const GRAPHIC_PATH As String = "\Graficos\"
@@ -213,7 +214,7 @@ On Local Error GoTo ErrHandler
             End If
             OutputFilePath = resource_path & MAP_PATH
             
-        Case MiniMapas
+        Case MiniMaps
             If UseOutputFolder Then
                 SourceFilePath = resource_path & OUTPUT_PATH & "MiniMapas.rao"
             Else
@@ -665,7 +666,7 @@ On Local Error GoTo ErrHandler
             SourceFileExtension = ".csm"
             OutputFilePath = dest_path & "Mapas.rao"
             
-        Case MiniMapas
+        Case MiniMaps
             SourceFilePath = resource_path & MINIMAP_PATH
             SourceFileExtension = ".bmp"
             OutputFilePath = dest_path & "MiniMapas.rao"
@@ -879,7 +880,7 @@ On Local Error GoTo ErrHandler
                 SourceFilePath = resource_path & "\mapas.rao"
             End If
             
-        Case MiniMapas
+        Case MiniMaps
             If UseOutputFolder Then
                 SourceFilePath = resource_path & OUTPUT_PATH & "MiniMapas.rao"
             Else
