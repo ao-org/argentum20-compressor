@@ -13,14 +13,38 @@ Begin VB.Form frmBinary
    ScaleHeight     =   2355
    ScaleWidth      =   4485
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton SavePass 
+      Caption         =   "Guardar"
+      Height          =   255
+      Left            =   3720
+      TabIndex        =   16
+      Top             =   1560
+      Width           =   735
+   End
+   Begin VB.CommandButton ReadPass 
+      Caption         =   "Leer"
+      Height          =   255
+      Left            =   3240
+      TabIndex        =   15
+      Top             =   1560
+      Width           =   495
+   End
+   Begin VB.CommandButton RandomPass 
+      Caption         =   "Random"
+      Height          =   255
+      Left            =   2505
+      TabIndex        =   14
+      Top             =   1560
+      Width           =   750
+   End
    Begin VB.TextBox Password 
       Alignment       =   2  'Center
       Height          =   285
-      Left            =   960
+      Left            =   120
       TabIndex        =   12
       Text            =   "Contraseña"
       Top             =   1560
-      Width           =   2535
+      Width           =   2295
    End
    Begin VB.CommandButton Command3 
       Caption         =   "Extraer uno"
@@ -37,7 +61,7 @@ Begin VB.Form frmBinary
       Left            =   3000
       TabIndex        =   11
       Top             =   1920
-      Width           =   1335
+      Width           =   1455
    End
    Begin VB.Frame Frame1 
       Caption         =   "Tipo de archivo"
@@ -341,34 +365,42 @@ Public Sub LeerLineaComandos()
     
         FileTypeName = UCase(FileTypeName)
         
-        Select Case FileTypeName
-            Case Is = "GRAFICOS"
-                Option1_Click (FileTypeEnum.Graficos)
-                Option1(FileTypeEnum.Graficos).value = True
-            Case Is = "MIDI"
-                Option1_Click (FileTypeEnum.Midi)
-                Option1(FileTypeEnum.Midi).value = True
-            Case Is = "WAV"
-                Option1_Click (FileTypeEnum.Wav)
-                Option1(FileTypeEnum.Wav).value = True
-            Case Is = "INITS"
-                Option1_Click (FileTypeEnum.Inits)
-                Option1(FileTypeEnum.Inits).value = True
-            Case Is = "PATCH"
-                Option1_Click (FileTypeEnum.PatchOk)
-                Option1(FileTypeEnum.PatchOk).value = True
-            Case Is = "INTERFACE"
-                Option1_Click (FileTypeEnum.Interface)
-                Option1(FileTypeEnum.Interface).value = True
-            Case Is = "MAPAS"
-                Option1_Click (FileTypeEnum.Mapas)
-                Option1(FileTypeEnum.Mapas).value = True
-            Case Is = "MINIMAPAS"
-                Option1_Click (FileTypeEnum.MiniMapas)
-                Option1(FileTypeEnum.MiniMapas).value = True
-        End Select
-    
-        Call Command1_Click
+        If FileTypeName = "PASSWORD" Or FileTypeName = "CONTRASEÑA" Then
+
+            Call SavePassword(Passwd)
+
+        Else
+        
+            Select Case FileTypeName
+                Case Is = "GRAFICOS"
+                    Option1_Click (FileTypeEnum.Graficos)
+                    Option1(FileTypeEnum.Graficos).value = True
+                Case Is = "MIDI"
+                    Option1_Click (FileTypeEnum.Midi)
+                    Option1(FileTypeEnum.Midi).value = True
+                Case Is = "WAV"
+                    Option1_Click (FileTypeEnum.Wav)
+                    Option1(FileTypeEnum.Wav).value = True
+                Case Is = "INITS"
+                    Option1_Click (FileTypeEnum.Inits)
+                    Option1(FileTypeEnum.Inits).value = True
+                Case Is = "PATCH"
+                    Option1_Click (FileTypeEnum.PatchOk)
+                    Option1(FileTypeEnum.PatchOk).value = True
+                Case Is = "INTERFACE"
+                    Option1_Click (FileTypeEnum.Interface)
+                    Option1(FileTypeEnum.Interface).value = True
+                Case Is = "MAPAS"
+                    Option1_Click (FileTypeEnum.Mapas)
+                    Option1(FileTypeEnum.Mapas).value = True
+                Case Is = "MINIMAPAS"
+                    Option1_Click (FileTypeEnum.MiniMapas)
+                    Option1(FileTypeEnum.MiniMapas).value = True
+            End Select
+        
+            Call Command1_Click
+            
+        End If
         
         End
     
@@ -378,4 +410,16 @@ End Sub
 
 Private Sub Password_Change()
     Passwd = Password.Text
+End Sub
+
+Private Sub RandomPass_Click()
+    Password.Text = RandomString(64)
+End Sub
+
+Private Sub ReadPass_Click()
+    Password.Text = GetPassword
+End Sub
+
+Private Sub SavePass_Click()
+    Call SavePassword(Password.Text)
 End Sub

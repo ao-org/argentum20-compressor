@@ -185,7 +185,7 @@ Public Function General_Random_Number(ByVal LowerBound As Long, ByVal UpperBound
     General_Random_Number = (UpperBound - LowerBound) * Rnd + LowerBound
 End Function
 
-Public Sub General_Sleep(ByVal length As Double)
+Public Sub General_Sleep(ByVal Length As Double)
 '*****************************************************************
 'Author: Aaron Perkins
 'Last Modify Date: 10/07/2002
@@ -199,7 +199,7 @@ Public Sub General_Sleep(ByVal length As Double)
     QueryPerformanceFrequency curFreq 'Get the timer frequency
     QueryPerformanceCounter curStart 'Get the start time
     
-    Do Until dblResult >= length
+    Do Until dblResult >= Length
         QueryPerformanceCounter curEnd 'Get the end time
         dblResult = (curEnd - curStart) / curFreq 'Calculate the duration (in seconds)
     Loop
@@ -318,3 +318,36 @@ Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Curre
     General_Drive_Get_Free_Bytes = FB * 10000 'convert result to actual size in bytes
 End Function
 
+Function RandomString(cb As Integer, Optional ByVal OnlyUpper As Boolean = False) As String
+        
+        On Error GoTo RandomString_Err
+        
+
+100     Randomize Time
+
+        Dim rgch As String
+
+102     rgch = "abcdefghijklmnopqrstuvwxyz"
+    
+104     If OnlyUpper Then
+106         rgch = UCase(rgch)
+        Else
+108         rgch = rgch & UCase(rgch)
+
+        End If
+    
+110     rgch = rgch & "0123456789"  ' & "#@!~$()-_"
+
+        Dim i As Long
+
+112     For i = 1 To cb
+114         RandomString = RandomString & mid$(rgch, Int(Rnd() * Len(rgch) + 1), 1)
+        Next
+
+        
+        Exit Function
+
+RandomString_Err:
+118     Resume Next
+        
+End Function
