@@ -1,11 +1,10 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\SysWOW64\stdole2.tlb#OLE Automation
-Form=frmBinary.frm
-Form=frmProgress.frm
-Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0; MSCOMCTL.OCX
-Module=modGeneral; modGeneral.bas
-Module=modCompression; modCompression.bas
-Module=MD5; MD5.bas
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
+Form=Codigo\frmBinary.frm
+Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0; mscomctl.ocx
+Module=modGeneral; Codigo\modGeneral.bas
+Module=modCompression; Codigo\modCompression.bas
+Module=MD5; Codigo\MD5.bas
 IconForm="frmBinary"
 Startup="frmBinary"
 HelpFile=""

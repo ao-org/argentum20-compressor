@@ -10,6 +10,8 @@ Codigo/*.log
 *.vbw
 *.csi
 *.OBJ
+*.lvw
+*.csi
 bkNpcs.dat
 Compressor.exe
 Guilds/guildsinfo.inf

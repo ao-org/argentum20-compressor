@@ -260,10 +260,10 @@ On Local Error GoTo ErrHandler
     'Extract the INFOHEADER
     Get SourceFile, , InfoHead
     
-    frmProgress.ProgressBar1.max = UBound(InfoHead)
+    frmBinary.ProgressBar1.max = UBound(InfoHead)
     'Extract all of the files from the binary file
     For LoopC = 0 To UBound(InfoHead)
-        frmProgress.ProgressBar1.value = LoopC
+        frmBinary.ProgressBar1.value = LoopC
         
         'Check if there is enough memory
         If InfoHead(LoopC).lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
@@ -714,7 +714,7 @@ On Local Error GoTo ErrHandler
     Open OutputFilePath For Binary Access Read Write As OutputFile
 
     If Not file_type = Patch Then
-        frmProgress.ProgressBar1.max = FileHead.intNumFiles - 1
+        frmBinary.ProgressBar1.max = FileHead.intNumFiles - 1
     End If
     
     Dim IHead As Long
@@ -722,7 +722,7 @@ On Local Error GoTo ErrHandler
     For LoopC = 0 To FileHead.intNumFiles - 1
     
         If Not file_type = Patch Then
-            frmProgress.ProgressBar1.value = LoopC
+            frmBinary.ProgressBar1.value = LoopC
         End If
     
         'Find a free file number to use and open the file
@@ -762,7 +762,9 @@ On Local Error GoTo ErrHandler
             IHead = IHead + 1
             
         Else
+        
             FileHead.intNumFiles = FileHead.intNumFiles - 1
+            
         End If
             
         'Close temp file
@@ -1047,8 +1049,6 @@ ErrHandler:
     File_Find.strFileName = ""
     File_Find.lngFileSize = 0
 End Function
-
-
 
 Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency
 '**************************************************************
