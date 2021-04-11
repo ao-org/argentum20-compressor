@@ -87,7 +87,7 @@ Private Const MINIMAP_PATH As String = "\MiniMapas\"
 Private Declare Function Compress Lib "zlib.dll" Alias "compress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
 Private Declare Function UnCompress Lib "zlib.dll" Alias "uncompress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
 
-Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef destination As Any, ByRef source As Any, ByVal length As Long)
+Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef destination As Any, ByRef source As Any, ByVal Length As Long)
 
 Private Sub Compress_Data(ByRef Data() As Byte)
 '*****************************************************************
@@ -152,7 +152,7 @@ Public Function Extract_All_Files(ByVal file_type As resource_file_type, ByVal r
     Dim SourceData() As Byte
     Dim FileHead As FILEHEADER
     Dim InfoHead() As INFOHEADER
-    Dim handle As Integer
+    Dim Handle As Integer
     
 'Set up the error handler
 On Local Error GoTo ErrHandler
@@ -260,10 +260,10 @@ On Local Error GoTo ErrHandler
     'Extract the INFOHEADER
     Get SourceFile, , InfoHead
     
-    frmProgress.ProgressBar1.max = UBound(InfoHead)
+    frmBinary.ProgressBar1.max = UBound(InfoHead)
     'Extract all of the files from the binary file
     For LoopC = 0 To UBound(InfoHead)
-        frmProgress.ProgressBar1.value = LoopC
+        frmBinary.ProgressBar1.value = LoopC
         
         'Check if there is enough memory
         If InfoHead(LoopC).lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left(App.Path, 3)) Then
@@ -284,14 +284,14 @@ On Local Error GoTo ErrHandler
         Decompress_Data SourceData, InfoHead(LoopC).lngFileSizeUncompressed
         
         'Get a free handler
-        handle = FreeFile
+        Handle = FreeFile
         
         'Create a new file and put in the data
-        Open OutputFilePath & InfoHead(LoopC).strFileName For Binary As handle
+        Open OutputFilePath & InfoHead(LoopC).strFileName For Binary As Handle
         
-        Put handle, , SourceData
+        Put Handle, , SourceData
         
-        Close handle
+        Close Handle
         
         Erase SourceData
         
@@ -713,16 +713,16 @@ On Local Error GoTo ErrHandler
     OutputFile = FreeFile
     Open OutputFilePath For Binary Access Read Write As OutputFile
 
-    If Not file_type = Patch Then
-        frmProgress.ProgressBar1.max = FileHead.intNumFiles - 1
+    If Not (file_type = Patch) Then
+        frmBinary.ProgressBar1.max = FileHead.intNumFiles - 1
     End If
     
     Dim IHead As Long
 
     For LoopC = 0 To FileHead.intNumFiles - 1
     
-        If Not file_type = Patch Then
-            frmProgress.ProgressBar1.value = LoopC
+        If Not (file_type = Patch) Then
+            frmBinary.ProgressBar1.value = LoopC
         End If
     
         'Find a free file number to use and open the file
@@ -762,7 +762,9 @@ On Local Error GoTo ErrHandler
             IHead = IHead + 1
             
         Else
+        
             FileHead.intNumFiles = FileHead.intNumFiles - 1
+            
         End If
             
         'Close temp file
@@ -825,7 +827,7 @@ Public Function Extract_File(ByVal file_type As resource_file_type, ByVal resour
     Dim SourceFilePath As String
     Dim SourceData() As Byte
     Dim InfoHead As INFOHEADER
-    Dim handle As Integer
+    Dim Handle As Integer
     
 'Set up the error handler
 On Local Error GoTo ErrHandler
@@ -897,12 +899,12 @@ On Local Error GoTo ErrHandler
     If InfoHead.strFileName = "" Or InfoHead.lngFileSize = 0 Then Exit Function
 
     'Open the binary file
-    handle = FreeFile
-    Open SourceFilePath For Binary Access Read Lock Write As handle
+    Handle = FreeFile
+    Open SourceFilePath For Binary Access Read Lock Write As Handle
 
     'Make sure there is enough space in the HD
     If InfoHead.lngFileSizeUncompressed > General_Drive_Get_Free_Bytes(Left$(App.Path, 3)) Then
-        Close handle
+        Close Handle
         MsgBox "There is not enough drive space to extract the compressed file.", , "Error"
         Exit Function
     End If
@@ -913,7 +915,7 @@ On Local Error GoTo ErrHandler
     ReDim SourceData(InfoHead.lngFileSize - 1)
     
     'Get the data
-    Get handle, InfoHead.lngFileStart, SourceData
+    Get Handle, InfoHead.lngFileStart, SourceData
     
     'Decrypt data
     DoCrypt_Data SourceData, Passwd
@@ -922,16 +924,16 @@ On Local Error GoTo ErrHandler
     Decompress_Data SourceData, InfoHead.lngFileSizeUncompressed
     
     'Close the binary file
-    Close handle
+    Close Handle
     
     'Get a free handler
-    handle = FreeFile
+    Handle = FreeFile
     
-    Open OutputFilePath & InfoHead.strFileName For Binary As handle
+    Open OutputFilePath & InfoHead.strFileName For Binary As Handle
     
-    Put handle, 1, SourceData
+    Put Handle, 1, SourceData
     
-    Close handle
+    Close Handle
     
     Erase SourceData
         
@@ -939,7 +941,7 @@ On Local Error GoTo ErrHandler
 Exit Function
 
 ErrHandler:
-    Close handle
+    Close Handle
     Erase SourceData
     'Display an error message if it didn't work
     'MsgBox "Unable to decode binary file. Reason: " & Err.number & " : " & Err.Description, vbOKOnly, "Error"
@@ -951,21 +953,21 @@ Public Sub Delete_File(ByVal file_path As String)
 'Last Modify Date: 3/03/2005
 'Deletes a resource files
 '*****************************************************************
-    Dim handle As Integer
+    Dim Handle As Integer
     Dim Data() As Byte
     
     On Error GoTo Error_Handler
     
     'We open the file to delete
-    handle = FreeFile
-    Open file_path For Binary Access Write Lock Read As handle
+    Handle = FreeFile
+    Open file_path For Binary Access Write Lock Read As Handle
     
     'We replace all the bytes in it with 0s
-    ReDim Data(LOF(handle) - 1)
-    Put handle, 1, Data
+    ReDim Data(LOF(Handle) - 1)
+    Put Handle, 1, Data
     
     'We close the file
-    Close handle
+    Close Handle
     
     'Now we delete it, knowing that if they retrieve it (some antivirus may create backup copies of deleted files), it will be useless
     Kill file_path
@@ -1047,8 +1049,6 @@ ErrHandler:
     File_Find.strFileName = ""
     File_Find.lngFileSize = 0
 End Function
-
-
 
 Public Function General_Drive_Get_Free_Bytes(ByVal DriveName As String) As Currency
 '**************************************************************

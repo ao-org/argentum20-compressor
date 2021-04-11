@@ -1,17 +1,18 @@
 VERSION 5.00
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmBinary 
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "ORE Compressor"
-   ClientHeight    =   2355
+   ClientHeight    =   3240
    ClientLeft      =   2325
    ClientTop       =   1500
-   ClientWidth     =   4485
+   ClientWidth     =   4560
    Icon            =   "frmBinary.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2355
-   ScaleWidth      =   4485
+   ScaleHeight     =   3240
+   ScaleWidth      =   4560
    StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton SavePass 
       Caption         =   "Guardar"
@@ -277,6 +278,37 @@ Begin VB.Form frmBinary
       Top             =   1920
       Width           =   1335
    End
+   Begin MSComctlLib.ProgressBar ProgressBar1 
+      Height          =   375
+      Left            =   120
+      TabIndex        =   17
+      Top             =   2760
+      Width           =   4320
+      _ExtentX        =   7620
+      _ExtentY        =   661
+      _Version        =   393216
+      Appearance      =   1
+      Scrolling       =   1
+   End
+   Begin VB.Label lblComprimiendo 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Comprimiendo..."
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   240
+      Left            =   1560
+      TabIndex        =   18
+      Top             =   2400
+      Width           =   1530
+   End
 End
 Attribute VB_Name = "frmBinary"
 Attribute VB_GlobalNameSpace = False
@@ -289,35 +321,48 @@ Dim File_Type_Index As Byte
 
 Public Passwd As String
 
+' Paths
+Private INPUT_PATH As String
+Private OUTPUT_PATH As String
+
 Sub Form_Load()
+    ' Paths
+    INPUT_PATH = App.Path & "\..\Recursos"
+    OUTPUT_PATH = INPUT_PATH & "\OUTPUT\"
+    
+    ' Leer argumentos
     Call LeerLineaComandos
+    
+    Call BarraProgreso(False)
 End Sub
 
 Private Sub Command1_Click()
-    frmProgress.Show
-    frmProgress.Label1.Caption = "Comprimiendo..."
-    Compress_Files File_Type_Index, App.Path & "\..\Recursos", App.Path & "\..\Recursos\OUTPUT\", Passwd
-    Unload frmProgress
+    Call BarraProgreso(True)
+    
+    lblComprimiendo.Caption = "Comprimiendo..."
+    
+    Call Compress_Files(File_Type_Index, INPUT_PATH, OUTPUT_PATH, Passwd)
+    
+    Call BarraProgreso(False)
 End Sub
 
 Private Sub Command2_Click()
-    Dim LoopC As Long
+    Call BarraProgreso(True)
     
-    frmProgress.Show
-    frmProgress.Label1.Caption = "Descomprimiendo..."
+    lblComprimiendo.Caption = "Descomprimiendo..."
+    
     If File_Type_Index <> Patch Then
-        Extract_All_Files File_Type_Index, App.Path & "\..\Recursos", Passwd, True
+        Call Extract_All_Files(File_Type_Index, INPUT_PATH, Passwd, True)
     Else
-         Extract_Patch App.Path & "\..\Recursos\OUTPUT", App.Path & "\..\Recursos\OUTPUT\Patch.rao", Passwd
+        Call Extract_Patch(OUTPUT_PATH, OUTPUT_PATH & "Patch.rao", Passwd)
     End If
     
-    Unload frmProgress
+    Call BarraProgreso(False)
 End Sub
 
 Private Sub Command3_Click()
-    Dim tmp As String
-    tmp = InputBox("Ingrese el nombre del archivo a extraer")
-    Extract_File File_Type_Index, App.Path & "\output", tmp, App.Path & "\output\", Passwd, False
+    Dim tmp As String: tmp = InputBox("Ingrese el nombre del archivo a extraer")
+    Call Extract_File(File_Type_Index, App.Path & "\output", tmp, App.Path & "\output\", Passwd, False)
 End Sub
 
 Private Sub Option1_Click(Index As Integer)
@@ -347,8 +392,8 @@ Function ReadField(ByVal Pos As Integer, ByRef Text As String, ByVal SepASCII As
     Else
         ReadField = mid$(Text, LastPos + 1, CurrentPos - LastPos - 1)
     End If
+    
 End Function
-
 
 Public Sub LeerLineaComandos()
     Dim rdata As String
@@ -422,4 +467,14 @@ End Sub
 
 Private Sub SavePass_Click()
     Call SavePassword(Password.Text)
+End Sub
+
+Private Sub BarraProgreso(ByVal Mostrar As Boolean)
+    
+    If Mostrar Then
+        Me.Height = 3615
+    Else
+        Me.Height = 2805
+    End If
+    
 End Sub
