@@ -323,7 +323,7 @@ Public Passwd As String
 
 ' Paths
 Private INPUT_PATH As String
-Private OUTPUT_PATH As String
+Public OUTPUT_PATH As String
 
 Sub Form_Load()
     ' Paths

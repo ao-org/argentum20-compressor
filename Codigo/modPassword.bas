@@ -51,7 +51,7 @@ Public Sub SavePassword(Password As String)
     Dim Handle As Integer
     Handle = FreeFile
 
-    Open App.Path & "/OUTPUT/AO.bin" For Binary Access Write As #Handle
+    Open frmBinary.OUTPUT_PATH & "AO.bin" For Binary Access Write As #Handle
     
     Put #Handle, , Data
     
