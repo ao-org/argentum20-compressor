@@ -1111,8 +1111,8 @@ Private Sub DoCrypt_Data(Data() As Byte, ByVal Password As String)
     For i = LBound(Data) To UBound(Data)
         Data(i) = Data(i) Xor (Asc(mid$(Password, c, 1)) And &HFF)
         
-        c = c + 1
-        If c > Len(Password) Then c = 1
+        c = c - 1
+        If c < 1 Then c = Len(Password)
     Next
     
 End Sub
