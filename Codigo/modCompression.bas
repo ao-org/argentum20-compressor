@@ -84,59 +84,18 @@ Private Const OUTPUT_PATH As String = "\Output\"
 Private Const MAP_PATH As String = "\Mapas\"
 Private Const MINIMAP_PATH As String = "\MiniMapas\"
 
-Private Declare Function Compress Lib "zlib.dll" Alias "compress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
-Private Declare Function UnCompress Lib "zlib.dll" Alias "uncompress" (dest As Any, destLen As Any, src As Any, ByVal srcLen As Long) As Long
-
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef destination As Any, ByRef source As Any, ByVal Length As Long)
 
 Private Sub Compress_Data(ByRef Data() As Byte)
-'*****************************************************************
-'Author: Juan Martín Dotuyo Dodero
-'Last Modify Date: 10/13/2004
-'Compresses binary data avoiding data loses
-'*****************************************************************
-    Dim Dimensions As Long
-    Dim DimBuffer As Long
     Dim BufTemp() As Byte
-    Dim LoopC As Long
-    
-    Dimensions = UBound(Data) + 1
-    
-    ' The worst case scenario, compressed info is 1.06 times the original - see zlib's doc for more info.
-    DimBuffer = Dimensions * 1.06
-    
-    ReDim BufTemp(DimBuffer)
-    
-    Call Compress(BufTemp(0), DimBuffer, Data(0), Dimensions)
-    
-    Erase Data
-    
-    ReDim Data(DimBuffer - 1)
-    ReDim Preserve BufTemp(DimBuffer - 1)
-    
+    BufTemp = zlibDeflate(Data)
     Data = BufTemp
-    
-    Erase BufTemp
-
 End Sub
 
 Private Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
-'*****************************************************************
-'Author: Juan Martín Dotuyo Dodero
-'Last Modify Date: 10/13/2004
-'Decompresses binary data
-'*****************************************************************
     Dim BufTemp() As Byte
-    
-    ReDim BufTemp(OrigSize - 1)
-    
-    Call UnCompress(BufTemp(0), OrigSize, Data(0), UBound(Data) + 1)
-    
-    ReDim Data(OrigSize - 1)
-    
+    BufTemp = zlibInflate(Data)
     Data = BufTemp
-    
-    Erase BufTemp
 End Sub
 
 Public Function Extract_All_Files(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal Passwd As String, Optional ByVal UseOutputFolder As Boolean = False) As Boolean
