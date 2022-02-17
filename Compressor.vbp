@@ -6,6 +6,7 @@ Module=modGeneral; Codigo\modGeneral.bas
 Module=modCompression; Codigo\modCompression.bas
 Module=MD5; Codigo\MD5.bas
 Module=modPassword; Codigo\modPassword.bas
+Module=basCryptoSys; Codigo\basCryptoSys.bas
 IconForm="frmBinary"
 Startup="frmBinary"
 HelpFile=""
