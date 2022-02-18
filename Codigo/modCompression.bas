@@ -88,14 +88,22 @@ Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef desti
 
 Private Sub Compress_Data(ByRef Data() As Byte)
     Dim BufTemp() As Byte
-    BufTemp = zlibDeflate(Data)
+    Dim iv() As Byte
+    Dim key() As Byte
+    key = cnvBytesFromHexStr("0123456789ABCDEFF0E1D2C3B4A59687")
+    iv = cnvBytesFromHexStr("FEDCBA9876543210FEDCBA9876543210")
+    BufTemp = cipherEncryptBytes2(zlibDeflate(Data), key, iv, "Aes128/CFB/nopad")
     Data = BufTemp
 End Sub
 
 Private Sub Decompress_Data(ByRef Data() As Byte, ByVal OrigSize As Long)
     Dim BufTemp() As Byte
-    BufTemp = zlibInflate(Data)
-    Data = BufTemp
+    Dim iv() As Byte
+    Dim key() As Byte
+    key = cnvBytesFromHexStr("0123456789ABCDEFF0E1D2C3B4A59687")
+    iv = cnvBytesFromHexStr("FEDCBA9876543210FEDCBA9876543210")
+    BufTemp = cipherDecryptBytes2(Data, key, iv, "Aes128/CFB/nopad")
+    Data = zlibInflate(BufTemp)
 End Sub
 
 Public Function Extract_All_Files(ByVal file_type As resource_file_type, ByVal resource_path As String, ByVal Passwd As String, Optional ByVal UseOutputFolder As Boolean = False) As Boolean
