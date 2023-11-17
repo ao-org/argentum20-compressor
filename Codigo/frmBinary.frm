@@ -326,6 +326,7 @@ Private INPUT_PATH As String
 Public OUTPUT_PATH As String
 
 Sub Form_Load()
+    frmBinary.Visible = True
     ' Paths
     INPUT_PATH = App.Path & "\..\Recursos"
     OUTPUT_PATH = INPUT_PATH & "\OUTPUT\"
