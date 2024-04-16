@@ -1,10 +1,11 @@
-# argentum20-compressor
+# Argentum Online Compressor
 
-Este programa es el encargado de crear comprimidos para el cliente
+"This program is responsible for creating compressed files for the client.
 
 ![image](https://github.com/ao-org/argentum20-compressor/assets/5874806/7c312a51-0c3a-46c5-bd45-135af281ee13)
 
-Se puede utilizar mediante terminal de la siguiente forma:
+It can be used via the terminal in the following way:
+
 ```
 C:\Compressor.exe" PASSWORD*Password12345 
 C:\Compressor.exe" GRAFICOS*Password12345 
