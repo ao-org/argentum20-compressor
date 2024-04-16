@@ -15,3 +15,10 @@ C:\Compressor.exe" INTERFACE*Password12345
 C:\Compressor.exe" MAPAS*Password12345 
 C:\Compressor.exe" MINIMAPAS*Password12345 
 ```
+
+## Cryptography
+CryptoSys is used in Argentum Online to cipher sensitive data.
+
+- [https://www.cryptosys.net/api.html](https://www.cryptosys.net/api.html)
+
+Please note this is not free software and you will have to buy your own license to use CryptoSys
