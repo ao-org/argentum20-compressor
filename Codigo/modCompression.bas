@@ -666,7 +666,8 @@ On Local Error GoTo ErrHandler
     General_Quick_Sort FileNames(), 0, UBound(FileNames)
     
     'Resize InfoHead array
-    ReDim InfoHead(FileHead.intNumFiles - 1)
+    Debug.Assert FileHead.intNumFiles > 0
+    ReDim InfoHead(FileHead.intNumFiles)
         
     'Destroy file if it previuosly existed
     If Dir(OutputFilePath, vbNormal) <> "" Then
@@ -681,7 +682,7 @@ On Local Error GoTo ErrHandler
     Open OutputFilePath For Binary Access Read Write As OutputFile
 
     If Not (file_type = Patch) Then
-        frmBinary.ProgressBar1.max = FileHead.intNumFiles - 1
+        frmBinary.ProgressBar1.max = FileHead.intNumFiles
     End If
     
     Dim IHead As Long
