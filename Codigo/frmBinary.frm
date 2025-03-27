@@ -427,6 +427,9 @@ Public Sub LeerLineaComandos()
                 Case Is = "WAV"
                     Option1_Click (FileTypeEnum.Wav)
                     Option1(FileTypeEnum.Wav).value = True
+                Case Is = "MP3"
+                    Option1_Click (FileTypeEnum.MP3)
+                    Option1(FileTypeEnum.MP3).value = True
                 Case Is = "INITS"
                     Option1_Click (FileTypeEnum.Inits)
                     Option1(FileTypeEnum.Inits).value = True
