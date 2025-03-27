@@ -14,7 +14,8 @@ C:\Compressor.exe" MIDI*Password12345
 C:\Compressor.exe" INITS*Password12345 
 C:\Compressor.exe" INTERFACE*Password12345 
 C:\Compressor.exe" MAPAS*Password12345 
-C:\Compressor.exe" MINIMAPAS*Password12345 
+C:\Compressor.exe" MINIMAPAS*Password12345
+C:\Compressor.exe" MP3*Password12345 
 ```
 
 ## Cryptography
