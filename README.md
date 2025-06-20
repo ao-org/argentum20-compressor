@@ -1,3 +1,12 @@
+> ⚠️ **Deprecated**  
+>
+> This is the **old compressor**, which has been **deprecated** in favour of the new version maintained at:  
+> 👉 [https://github.com/ao-org/argentum_compressor](https://github.com/ao-org/argentum_compressor)
+>
+> Please use the new project for all current and future builds.
+
+----
+
 # Argentum Online Compressor
 
 "This program is responsible for creating compressed files for the client.
